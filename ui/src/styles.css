@@ -1,0 +1,59 @@
+body {
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+}
+
+.d2h-tag.d2h-changed-tag {
+	display: none;
+}
+
+.panel {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 700px;
+	height: auto;
+	max-height: 100%;
+	overflow-y: scroll;
+	background: white;
+	opacity: 0.8;
+	border: 1px solid gray;
+	padding: 10px;
+	user-select: none;
+}
+
+.panel .nav {
+	margin-bottom: 10px;
+}
+
+.panel .nav a {
+	margin-right: 5px;
+}
+
+.panel .nav a.pull-right {
+	float: right;
+}
+
+.panel.collapsed {
+	height: 20px;
+	overflow: hidden;
+}
+
+.panel.collapsed .details {
+	display: none;
+}
+
+a {
+	cursor: pointer;
+	color: #07c;
+}
+
+a.disabled {
+	color: #444;
+}
+
+.txt pre {
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	font-size: 14px;
+}
