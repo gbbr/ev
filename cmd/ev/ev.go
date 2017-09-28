@@ -13,27 +13,19 @@ import (
 	"github.com/pkg/browser"
 )
 
-// parsedLog holds the parsed git log for the given configuration
-var parsedLog []*ev.Commit
+var funcName, fileName string
 
 func init() {
-	var funcName, fileName string
 	log.SetFlags(0)
 	log.SetPrefix("ev: ")
 	if len(os.Args) <= 1 {
 		usageAndExit()
 	}
-	if os.Args[1] == "dev" {
-		ev.DirName = "/Users/Gabriel/g/go/src/bytes"
-		funcName, fileName = "IndexAny", "bytes.go"
-	} else {
-		parts := strings.Split(os.Args[1], ":")
-		if len(parts) != 2 {
-			usageAndExit()
-		}
-		funcName, fileName = parts[0], parts[1]
+	parts := strings.Split(os.Args[1], ":")
+	if len(parts) != 2 {
+		usageAndExit()
 	}
-	parsedLog = ev.Parse(funcName, fileName)
+	funcName, fileName = parts[0], parts[1]
 }
 
 func usageAndExit() {
@@ -41,15 +33,28 @@ func usageAndExit() {
 	os.Exit(0)
 }
 
-func main() {
+func newServeMux() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", index)
 	mux.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(&assetfs.AssetFS{
 		Asset:     ui.Asset,
 		AssetDir:  ui.AssetDir,
 		AssetInfo: ui.AssetInfo,
 		Prefix:    "",
 	})))
+	return mux
+}
+
+func main() {
+	parsedLog, err := ev.Log(funcName, fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	mux := newServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		if err := indexTemplate.Execute(w, parsedLog); err != nil {
+			log.Fatal(err)
+		}
+	})
 	go func() {
 		if err := http.ListenAndServe(":8888", mux); err != nil {
 			log.Fatal(err)

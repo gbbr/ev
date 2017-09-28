@@ -3,7 +3,7 @@
 package ui // import "gbbr.io/ev/ui"
 
 //go:generate webpack --display=errors-only
-//go:generate go-bindata -dev -o bindata.go -prefix=dist/ -pkg ui dist/
+//go:generate go-bindata -o bindata.go -prefix=dist/ -pkg ui dist/
 
 import (
 	"log"
