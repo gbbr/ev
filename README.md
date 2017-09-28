@@ -8,3 +8,10 @@ Will open the browser showing the git-log history of the function `funcname` fro
 ![ev](http://i66.tinypic.com/jtx9uv.png)
 
 See a demo of it in action on `NewBufferString` from the `bytes` package [on YouTube](https://youtu.be/Xawz4zR2kjc).
+
+### Installation
+
+```
+go get gbbr.io/ev
+go install gbbr.io/ev/cmd/...
+```
