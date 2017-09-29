@@ -18,13 +18,12 @@ class SidePanel extends Component {
     }
 
     componentDidMount() {
-        let {history, goto} = this.props;
+        let {history, goto, total} = this.props;
         let changes = ['Lines Changed'];
         let dates = ['x'];
 
-        history.forEach(({DiffJSON, CommitterDate}) => {
-            //TODO(gbbr): Try to get change weight only for excerpt (not overall commit)
-            changes.push(DiffJSON[0].addedLines + DiffJSON[0].deletedLines);
+        history.forEach(({Changes, CommitterDate}) => {
+            changes.push(Changes);
             dates.push(moment(CommitterDate).toDate());
         });
 
@@ -33,7 +32,7 @@ class SidePanel extends Component {
             data: {
                 x: 'x',
                 columns: [dates, changes],
-                onclick: ({index}) => goto(index)
+                onclick: ({index}) => goto(total - index - 1)
             },
             axis: {
                 x: {

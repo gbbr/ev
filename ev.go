@@ -22,6 +22,7 @@ type Commit struct {
 	CommitterDate  time.Time
 	Msg            string
 	Diff           string
+	Changes        int
 }
 
 // logReader executes the `git log -L:<re>:<fn>` command with a custom format
@@ -49,10 +50,12 @@ func Log(re, fn string) ([]*Commit, error) {
 		return nil, err
 	}
 	scn := bufio.NewScanner(r)
-	var c *Commit
-	var diff bytes.Buffer
-	var msg bytes.Buffer
 	list := make([]*Commit, 0)
+	var (
+		c    *Commit
+		diff bytes.Buffer
+		msg  bytes.Buffer
+	)
 	readingDiff := false
 	for scn.Scan() {
 		line := scn.Text()
@@ -77,6 +80,9 @@ func Log(re, fn string) ([]*Commit, error) {
 			continue
 		}
 		if readingDiff {
+			if len(line) >= 1 && (line[0] == '-' || line[0] == '+') {
+				c.Changes++
+			}
 			diff.WriteString(line)
 			diff.WriteString("\r\n")
 		} else {
