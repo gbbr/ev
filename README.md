@@ -7,7 +7,7 @@ Will open the browser showing a friendly UI of the git-log history of the functi
 
 ![ev](http://i66.tinypic.com/jtx9uv.png)
 
-See a demo of it in action on `NewBufferString` from the `bytes` package [on YouTube](https://youtu.be/Xawz4zR2kjc), or try it out yourself!
+See a demo of it in action on `NewBufferString` from the `bytes` package [on YouTube](https://youtu.be/GqfDZX7xLUQ), or try it out yourself!
 
 ### Installation
 
