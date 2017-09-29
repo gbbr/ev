@@ -11,6 +11,7 @@ class SidePanel extends Component {
 
         this.state = {collapsed: false};
         this.toggleCollapsed = this.toggleCollapsed.bind(this);
+        this.chart = null;
     }
 
     toggleCollapsed() {
@@ -27,12 +28,16 @@ class SidePanel extends Component {
             dates.push(moment(CommitterDate).toDate());
         });
 
-        c3.generate({
+        this.chart = c3.generate({
             bindto: '#chart',
             data: {
                 x: 'x',
                 columns: [dates, changes],
-                onclick: ({index}) => goto(total - index - 1)
+                onclick: ({index}) => goto(total - index - 1),
+                selection: {
+                    enabled: true,
+                    multiple: false
+                }
             },
             axis: {
                 x: {
@@ -43,6 +48,20 @@ class SidePanel extends Component {
                 }
             }
         });
+
+        this.selectIndex(0);
+    }
+
+    selectIndex(i) {
+        this.chart.select(null, [this.props.total - i - 1], true);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {index} = this.props;
+
+        if (prevProps.index !== index && this.chart !== null) {
+            this.selectIndex(index)
+        }
     }
 
     render() {
@@ -52,8 +71,8 @@ class SidePanel extends Component {
         return (
             <div className={"panel" + (collapsed ? " collapsed" : "")}>
                 <div className="nav">
-                    <button disabled={index === 0} onClick={prev}>&lt; Newer</button>
-                    <button disabled={index === total - 1} onClick={next}>Older &gt;</button>
+                    <button disabled={index === total - 1} onClick={next}>&lt; Older</button>
+                    <button disabled={index === 0} onClick={prev}>Newer &gt;</button>
                     <a className="pull-right" onClick={this.toggleCollapsed}>
                         {collapsed ? 'Show' : 'Hide'}
                     </a>
