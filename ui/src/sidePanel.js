@@ -71,9 +71,9 @@ class SidePanel extends Component {
                         Committer: {entry.CommitterName} &lt;{entry.CommitterEmail}&gt;
                         &nbsp;{moment(entry.CommitterDate).fromNow()}
                     </div>
-                    <div className="txt"><pre>{entry.Msg}</pre></div>
                 </div>
                 <div id="chart" />
+                <div className="txt"><pre>{entry.Msg}</pre></div>
             </div>
         );
     }

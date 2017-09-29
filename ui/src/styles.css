@@ -20,11 +20,11 @@ body {
 	opacity: 0.8;
 	border: 1px solid gray;
 	padding: 10px;
-	user-select: none;
 }
 
 .panel .nav {
 	margin-bottom: 10px;
+	user-select: none;
 }
 
 .panel .nav a {
@@ -42,6 +42,11 @@ body {
 
 .panel.collapsed .details {
 	display: none;
+}
+
+.panel #chart {
+	height: 150px;
+	margin: 15px 0;
 }
 
 a {

@@ -9,11 +9,11 @@ import (
 
 	"gbbr.io/ev"
 	"gbbr.io/ev/ui"
-	assetfs "github.com/elazarl/go-bindata-assetfs"
 	"github.com/pkg/browser"
 )
 
 var funcName, fileName string
+var parsedLog []*ev.Commit
 
 func init() {
 	log.SetFlags(0)
@@ -33,28 +33,21 @@ func usageAndExit() {
 	os.Exit(0)
 }
 
-func newServeMux() *http.ServeMux {
-	mux := http.NewServeMux()
-	mux.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(&assetfs.AssetFS{
-		Asset:     ui.Asset,
-		AssetDir:  ui.AssetDir,
-		AssetInfo: ui.AssetInfo,
-		Prefix:    "",
-	})))
-	return mux
+func index(w http.ResponseWriter, req *http.Request) {
+	if err := indexTemplate.Execute(w, parsedLog); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
-	parsedLog, err := ev.Log(funcName, fileName)
+	var err error
+	parsedLog, err = ev.Log(funcName, fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
-	mux := newServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		if err := indexTemplate.Execute(w, parsedLog); err != nil {
-			log.Fatal(err)
-		}
-	})
+	mux := http.NewServeMux()
+	mux.Handle("/dist/", http.StripPrefix("/dist/", http.FileServer(ui.FS)))
+	mux.HandleFunc("/", index)
 	go func() {
 		if err := http.ListenAndServe(":8888", mux); err != nil {
 			log.Fatal(err)
