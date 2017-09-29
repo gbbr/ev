@@ -54,10 +54,6 @@ a {
 	color: #07c;
 }
 
-a.disabled {
-	color: #444;
-}
-
 .txt pre {
 	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	font-size: 14px;

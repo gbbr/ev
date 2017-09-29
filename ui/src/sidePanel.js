@@ -49,14 +49,12 @@ class SidePanel extends Component {
     render() {
         const {next, prev, total, entry, index} = this.props;
         const {collapsed} = this.state;
-        const prevClass = index === 0 ? 'disabled' : '';
-        const nextClass = index === total - 1 ? 'disabled' : '';
 
         return (
             <div className={"panel" + (collapsed ? " collapsed" : "")}>
                 <div className="nav">
-                    <a className={prevClass} onClick={prev}>Prev</a>
-                    <a className={nextClass} onClick={next}>Next</a>
+                    <button disabled={index === 0} onClick={prev}>&lt; Newer</button>
+                    <button disabled={index === total - 1} onClick={next}>Older &gt;</button>
                     <a className="pull-right" onClick={this.toggleCollapsed}>
                         {collapsed ? 'Show' : 'Hide'}
                     </a>

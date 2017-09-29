@@ -64,7 +64,7 @@ func Log(re, fn string) ([]*Commit, error) {
 				list = append(list, c)
 			}
 			c = new(Commit)
-			err := readHeader(strings.TrimPrefix(line, "HEADER:"), c)
+			err := readHeader(line[7:], c)
 			if err != nil {
 				return nil, err
 			}
