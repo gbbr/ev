@@ -14,8 +14,7 @@ See a [demo](https://youtu.be/GqfDZX7xLUQ) of it, or try it out yourself!
 ### Installation
 
 ```
-go get gbbr.io/ev
-go install gbbr.io/ev/cmd/...
+go get gbbr.io/ev/cmd/...
 ```
 ---
 
