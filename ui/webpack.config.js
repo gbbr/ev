@@ -31,20 +31,6 @@ module.exports = {
           { loader: "style-loader" },
           { loader: "css-loader" }
         ]
-      },
-      {
-        test: /\.(png|woff|jpg|svg|gif|eot|ttf)$/,
-        exclude: /\/icon\/.*.svg/,
-        loader: 'url-loader',
-        options: { limit: 10000 },
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" },
-          { loader: "sass-loader" }
-        ]
       }
     ]
   },
